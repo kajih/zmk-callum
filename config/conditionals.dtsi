@@ -1,0 +1,16 @@
+#include "callum.h"
+#include "../includes/defines.h"
+
+/ {
+  combos {
+    compatible = "zmk,combos";
+
+    combo_tri {
+      key-positions = <LH0 RH0>;
+      layers = <QWE COL>;
+      timeout-ms = <200>;
+      bindings = <&mo TRI>;
+      slow-release;
+    };
+  };
+};

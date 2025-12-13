@@ -1,0 +1,100 @@
+#include "callum.h"
+#include "../includes/defines.h"
+
+/ {
+  behaviors {
+    mt: mod_tap {
+      compatible = "zmk,behavior-hold-tap";
+      flavor = "hold-preferred";
+      tapping-term-ms = <HM_TAPPING_TERM>;
+      #binding-cells = <2>;
+      bindings = <&kp>, <&kp>;
+      display-name = "Mod-Tap";
+    };
+
+    lt: layer_tap {
+      compatible = "zmk,behavior-hold-tap";
+      flavor = "hold-preferred";
+      tapping-term-ms = <HM_TAPPING_TERM>;
+      #binding-cells = <2>;
+      bindings = <&mo>, <&kp>;
+      display-name = "Layer-Tap";
+    };
+
+    // Single tap: toggle | hold: momentary SYM layer
+    sym_smart: sym_smart {
+      compatible = "zmk,behavior-hold-tap";
+      flavor = "balanced";
+      #binding-cells = <2>;
+      tapping-term-ms = <HM_TAPPING_TERM>;
+      quick-tap-ms = <HM_TAPPING_TERM_FAST>;
+      bindings = <&mo>, <&tog>;
+    };
+
+    // Morphs
+    // Shift left bracket
+    slbk: shift_lbkt {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_LBKT>, <&kp SV_LBRC>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift Right Bracket
+    srbk: shift_rbkt {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_RBKT>, <&kp SV_RBRC>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift LBracket/RBracket
+    sbkt: shift_brkt {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_LBKT>, <&kp SV_RBKT>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift LBrace/RBrace
+    sbrc: shift_brc {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_LBRC>, <&kp SV_RBRC>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift Backslash / Pipe
+    sbslh: shift_bslh {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_BSLH>, <&kp SV_PIPE>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift Semi / Colon
+    ssemi: shift_semi {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_SEMI>, <&kp SV_COLON>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift ' / Grave
+    ssqt: shift_sqt {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp SV_SQT>, <&kp SV_GRAVE>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    // Shift Backspace / Delete
+    bspc_del: backspace_delete {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp BACKSPACE>, <&kp DELETE>;
+      mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+  };
+};

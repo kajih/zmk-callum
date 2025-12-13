@@ -1,0 +1,13 @@
+.vscode/
+build/
+dist/
+modules/
+out/
+zmk/
+zephyr/
+
+zmk-auto-layer/
+zmk-helpers/
+
+.west
+*.bak

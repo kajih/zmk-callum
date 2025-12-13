@@ -1,56 +1,165 @@
-/*
- * Copyright (c) 2023 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
-
-/* Uncomment this block if using RGB
-&led_strip {
-    chain-length = <6>;
-    // chain-length = <31>; // Uncomment if using both per-key and underglow LEDs
-    // chain-length = <25>; // Uncomment if using only per-key LEDs.
-};
- */
+#include <dt-bindings/zmk/pointing.h>
+#include "../includes/defines.h"
+#include "behaviors.dtsi"
+#include "conditionals.dtsi"
+#include "oneshots.dtsi"
 
 / {
-    keymap {
-        compatible = "zmk,keymap";
-
-        default_layer {
-            display-name = "Default Layer";
-            // ---------------------------------------------------------------------------------------------------------------------------------
-            // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                                          |  Y   |  U    |  I    |  O   |   P   |   \  |
-            // |  TAB  |  A  |  S  |  D   |  F   |  G   |                                          |  H   |  J    |  K    |  L   |   ;   |   '  |
-            // | SHIFT |  Z  |  X  |  C   |  V   |  B   | L SHIFT | L SHIFT |  | LAYER 1 | L SHIFT |  N   |  M    |  ,    |  .   |   /   | CTRL |
-            //                     | GUI  | DEL  | RET  |  SPACE  |   ESC   |  |   RET   |  SPACE  | TAB  | BSPC  | R-ALT |
-            bindings = <
-            &kp ESC   &kp Q &kp W &kp E &kp R &kp T                                                  &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSLH
-            &kp TAB   &kp A &kp S &kp D &kp F &kp G                                                  &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-            &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp LSHFT &kp LSHFT            &mo 1   &kp LSHFT &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RCTRL
-                                  &kp LGUI &kp DEL &kp RET &kp SPACE &kp ESC       &kp RET &kp SPACE &kp TAB &kp BSPC &kp RALT
-            >;
-
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
-        };
-        function_layer {
-            display-name = "Function Layer";
-            // ---------------------------------------------------------------------------------------------------------------------------------
-            // |       |      |BT_CLR|BTSEL0|BTSEL1|BTSEL2|                                         |      |      |      |      |      |      |
-            // |       |      |      |BTSEL3|BTSEL4|      |                                         |      |      |      |      |      |      |
-            // |       |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |
-            //                       |      |      |      |      |      |      |      |      |      |      |      |      |
-            bindings = <
-            &trans &trans &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2              &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans     &bt BT_SEL 3 &bt BT_SEL 4 &trans                    &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans &trans
-                                 &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans
-            >;
-
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
-        };
+  macros {
+    mac0: anddo_macro {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      bindings = <&none &kp SPACE &kp SV_AMPS &kp SV_AMPS &kp SPACE>;
     };
+  };
+
+  keymap {
+    compatible = "zmk,keymap";
+
+    qwerty_layer {
+      display-name = "Qwerty";
+      bindings = <
+        &mt GRAVE ESC &kp Q &kp W &kp E &kp R &kp T                                                                                 &kp Y        &kp U    &kp I      &kp O    &kp P    &kp BSPC
+        &mt LSHFT TAB &kp A &kp S &kp D &kp F &kp G                                                  /**/                           &kp H        &kp J    &kp K      &kp L    &kp BSLH &kp SV_DQT
+        &kp LCTRL     &kp Z &kp X &kp C &kp V &kp B   &sbkt    &caps_word                            /**/ &mo FUN     &sbrc         &kp N        &kp M    &kp COMMA  &kp DOT  &kp FSLH &kp RCTRL
+                                              &mo ADJ &kp LGUI &lt FUN DEL &lt QML ENTER &lt NAV TAB /**/ &lt NUM ESC &lt QMR SPACE &lt SYM BSPC &kp RALT &kp RGUI
+      >;
+      sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+    };
+
+    qwerty_osl {
+      display-name = "Qsht Left";
+      bindings = <
+        &trans  &trans &trans &trans &trans &trans                                        &trans   &trans   &trans &trans &trans &trans
+        &trans  OLGUI  OLALT  OLCTRL OLSHFT &trans                /**/                    &trans   &trans   &trans &trans &trans &trans
+        &trans  &trans &trans &trans &trans &trans &trans &trans  /**/  &trans  &trans    &trans   &trans   &trans &trans &trans &trans
+                              &trans &trans &trans &trans &trans  /**/  &kp ESC &kp SPACE &kp BSPC &kp RALT &kp RGUI
+      >;
+    };
+
+    qwerty_osr {
+      display-name = "Qsht Right";
+      bindings = <
+        &trans  &trans &trans &trans &trans   &trans                                          &trans  &trans &trans &trans &trans &trans
+        &trans  &kp A  &kp S  &kp D  &kp D    &trans                    /**/                  &trans  ORSHFT ORCTRL ORALT  ORGUI  &trans
+        &trans  &trans &trans &trans &trans   &trans  &trans    &trans  /**/  &trans  &trans  &trans  &trans &trans &trans &trans &trans
+                              &trans &kp LGUI &kp DEL &kp ENTER &kp TAB /**/  &trans  &trans  &trans  &trans &trans
+      >;
+    };
+
+    colemak_layer {
+      display-name = "Colemak";
+      bindings = <
+        &mt GRAVE ESC &kp Q &kp W  &kp F   &kp P    &kp B                                                                  &kp J        &kp L    &kp U     &kp Y   &kp SV_SEMI &kp BSPC
+        &mt LSHFT TAB &kp A &kp R  &kp S   &kp T    &kp G                                   /**/                           &kp M        &kp N    &kp E     &kp I   &kp O       &mt RSHFT SV_DQT
+        &kp LCTRL     &kp Z &kp X  &kp C   &kp D    &kp V         &sbkt         &caps_word  /**/ &mo FUN     &sbrc         &kp K        &kp H    &kp COMMA &kp DOT &kp FSLH    &kp RCTRL
+                                   &mo ADJ &kp LGUI &lt FUN DEL   &lt CML ENTER &lt NAV TAB /**/ &lt NUM ESC &lt CMR SPACE &lt SYM BSPC &kp RALT &kp RGUI
+      >;
+      sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+    };
+
+    colemak_osl {
+      display-name = "Csht Left";
+      bindings = <
+        &trans  &trans &trans &trans &trans &trans                                        &trans   &trans   &trans &trans &trans &trans
+        &trans  OLGUI  OLALT  OLCTRL OLSHFT &trans                /**/                    &trans   &trans   &trans &trans &trans &trans
+        &trans  &trans &trans &trans &trans &trans &trans &trans  /**/  &trans  &trans    &trans   &trans   &trans &trans &trans &trans
+                              &trans &trans &trans &trans &trans  /**/  &kp ESC &kp SPACE &kp BSPC &kp RALT &kp RGUI
+      >;
+    };
+
+    colemak_osr {
+      display-name = "Csht Right";
+      bindings = <
+        &trans  &trans &trans &trans &trans   &trans                                       &trans &trans &trans &trans &trans &trans
+        &trans  &kp A  &kp R  &kp S  &kp T    &trans                    /**/               &trans ORSHFT ORCTRL ORALT  ORGUI  &trans
+        &trans  &trans &trans &trans &trans   &trans  &trans    &trans  /**/ &trans &trans &trans &trans &trans &trans &trans &trans
+                              &trans &kp LGUI &kp DEL &kp ENTER &kp TAB /**/ &trans &trans &trans &trans &trans
+      >;
+    };
+
+    num_layer {
+      display-name = "Numbers";
+      bindings = <
+        &trans  &slbk      &kp N7 &kp N8 &kp N9 &srbk                                                &trans     &trans     &trans    &trans    &trans &trans
+        &trans  &ssemi     &kp N4 &kp N5 &kp N6 &kp SV_PLUS                     /**/                 &trans     ORSHFT     ORCTRL    ORALT     ORGUI  &trans
+        &trans  &kp SV_DOT &kp N1 &kp N2 &kp N3 &sbslh     &trans  &trans       /**/ &trans  &trans  &kp SV_SQT &kp SV_DQT &kp SV_LT &kp SV_GT &trans &trans
+                                  &trans &trans &kp SV_SQT &kp N0  &kp SV_MINUS /**/ &trans  &trans  &trans     &trans     &trans
+      >;
+    };
+
+    sym_layer {
+      display-name = "Symbols";
+      bindings = <
+        &trans  &kp SV_EXCL &kp SV_DQT &kp HASH    &mt SV_EURO SV_DLLR &kp SV_PRCNT                                              &kp SV_AMPS &mt SV_BSLH SV_FSLH &kp SV_LPAR  &kp SV_RPAR  &kp SV_STAR  &trans
+        &trans  &kp N1      &kp N2     &kp N3      &kp N4              &kp N5                          /**/                      &kp N6      &kp N7              &kp N8       &kp N9       &kp N0       &trans
+        &trans  &kp SV_BSLH &kp SV_AT  &kp SV_SEMI &kp SV_MINUS        &kp SV_LBKT &kp SV_LBRC &trans  /**/  &trans  &kp SV_RBRC &kp SV_RBKT &kp SV_UNDER        &kp SV_COMMA &kp SV_DOT   &kp SV_CARET &trans
+                                       &trans      &trans              &kp SV_SQT  &trans      &trans  /**/  &trans  &trans      &trans      &trans              &trans
+      >;
+    };
+
+    function_layer {
+      display-name = "Function Layer";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans                                           &kp KP_NUM &kp F7 &kp F8 &kp F9 &kp F10 &trans
+        &trans OLGUI  OLALT  OLCTRL OLSHFT &trans               /**/                        &kp CAPS   &kp F4 &kp F5 &kp F6 &kp F11 &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans /**/ &trans &kp PAUSE_BREAK &kp SLCK   &kp F1 &kp F2 &kp F3 &kp F12 &trans
+                             &trans &trans &trans &trans &trans /**/ &trans &trans          &trans     &trans &trans
+      >;
+    };
+
+    button_layer {
+      display-name = "Buttons";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans                             &trans &trans &trans &trans &trans &trans
+        &trans OLGUI  OLALT  OLCTRL OLSHFT &trans                             &trans ORSHFT ORCTRL ORALT  ORGUI  &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+      >;
+   };
+
+    tri_layer {
+      display-name = "Tri Layer";
+      bindings = <
+        &bootloader &trans        &trans          &trans &kp SV_CARET &kp SV_TILDE                                 &mac0  &trans &trans &kp SV_O_UMLAUT &trans &bootloader 
+        &trans      &kp SV_A_RING &kp SV_A_UMLAUT OLCTRL OLSHFT       &trans                  /**/                 &trans ORSHFT ORCTRL ORALT           ORGUI &trans
+        &trans      &trans        &trans          &trans &trans       &trans  &trans  &trans  /**/  &trans  &trans &trans &trans &trans &trans          &trans &trans
+                                                  &trans &trans       &trans  &trans  &trans  /**/  &trans  &trans &trans &trans &trans
+      >;
+    };
+
+    navigation_layer {
+      display-name = "Navigation Layer";
+      bindings = <
+        &trans  &trans &trans &trans &trans &trans                                         &kp K_REDO &kp K_PASTE &kp K_COPY  &kp K_CUT     &kp K_UNDO &trans
+        &trans  OLGUI  OLALT  OLCTRL OLSHFT &trans                 /**/                    &kp LEFT   &kp DOWN    &kp UP      &kp RIGHT     &kp CAPS   &trans
+        &trans  &trans &trans &trans &trans &trans  &trans  &trans /**/ &trans    &trans   &kp INS    &kp HOME    &kp PAGE_UP &kp PAGE_DOWN &kp END    &trans
+                              &trans &trans &trans  &trans  &trans /**/ &kp ENTER &kp BSPC &kp DEL    &trans      &trans
+      >;
+      sensor-bindings = <&inc_dec_kp PAGE_UP PAGE_DOWN>;
+    };
+
+    adjust_layer {
+      display-name = "Adjustment Layer";
+      bindings = <
+        &bt BT_PRV &bt BT_NXT      &trans         &trans  &trans  &to QWE                                                    &trans         &msc SCRL_DOWN &msc SCRL_UP &trans          &trans &trans
+        &bt BT_CLR &bt BT_CLR_ALL  &bt BT_DISC 0  &trans  &trans  &to COL                         /**/                       &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &trans &trans
+        &trans     &trans          &trans         &trans  &trans  &trans  &trans  &studio_unlock  /**/   &mkp MB3  &mkp MB4  &trans         &trans         &trans       &trans          &trans &trans
+                                                  &trans  &trans  &trans  &trans  &trans          /**/   &mkp MB1  &mkp MB2  &trans         &trans         &trans
+      >;
+    };
+
+    /*
+    empty_layer {
+      display-name = "Empty Layer";
+      bindings = <
+        &trans  &trans  &trans  &trans  &trans  &trans                                  &trans  &trans  &trans  &trans  &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans                                  &trans  &trans  &trans  &trans  &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+      >;
+    };
+    */
+
+  };
 };

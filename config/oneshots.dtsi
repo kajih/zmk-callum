@@ -1,0 +1,99 @@
+#include "callum.h"
+#include "../includes/defines.h"
+#include <behaviors.dtsi>
+
+#define OLSHFT &tdsm_lshift
+#define OLCTRL &tdsm_lctrl
+#define OLALT &tdsm_lalt
+#define OLGUI &tdsm_lgui
+#define ORSHFT &tdsm_rshift
+#define ORCTRL &tdsm_rctrl
+#define ORALT &tdsm_ralt
+#define ORGUI &tdsm_rgui
+
+
+/ {
+  behaviors {
+
+    // --- Sticky wrapper: quick-release + timeout ---
+    skq: sk_skq {
+      compatible = "zmk,behavior-sticky-key";
+      #binding-cells = <1>;
+      bindings = <&kp>;
+      release-after-ms = <1500>;
+      quick-release;
+      ignore-modifiers;
+    };
+
+    // --- HOLD-TAP: håll = KP MOD, tap = Sticky (OSM) MOD ---
+    osm: ht_osm {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <120>;
+      flavor = "hold-preferred";
+      bindings = <&kp>, <&skq>;
+    };
+
+    // --- Individual TD's
+    // Left side
+
+    tdsm_lshift: td_lshift_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm LSHFT LSHFT>, <&kt LSHFT>;
+    };
+
+    tdsm_lctrl: td_lctrl_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm LCTRL LCTRL>, <&kt LCTRL>;
+    };
+
+    tdsm_lalt: td_lalt_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm LALT LALT>, <&kt LALT>;
+    };
+
+    tdsm_lgui: td_lgui_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm LGUI LGUI>, <&kt LGUI>;
+    };
+
+
+    // Right side
+    tdsm_rshift: td_rshift_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm RSHFT RSHFT>, <&kt RSHFT>;
+    };
+
+    tdsm_rctrl: td_rctrl_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm RCTRL RCTRL>, <&kp RCTRL>;
+    };
+
+    tdsm_ralt: td_ralt_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm RALT RALT>, <&kt RALT>;
+    };
+
+    tdsm_rgui: td_rgui_lock {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <120>;
+      bindings = <&osm RGUI RGUI>, <&kt RGUI>;
+    };
+  };
+};
+
