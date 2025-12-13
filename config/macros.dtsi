@@ -1,0 +1,15 @@
+/ {
+  macros {
+    mac0: anddo_macro {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      bindings = <&none &kp SPACE &kp SV_AMPS &kp SV_AMPS &kp SPACE>;
+    };
+
+    cancl: cancel_macro {
+      compatible = "zmk,behavior-macro";
+      #binding-cells = <0>;
+      bindings = <&macro_release &kp LSHFT &kp LCTRL &kp LALT &kp LGUI &kp RSHFT &kp RCTRL &kp RALT &kp RGUI>;
+    };
+  };
+};

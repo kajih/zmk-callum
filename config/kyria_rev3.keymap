@@ -3,15 +3,10 @@
 #include "behaviors.dtsi"
 #include "conditionals.dtsi"
 #include "oneshots.dtsi"
+#include "macros.dtsi"
 
 / {
-  macros {
-    mac0: anddo_macro {
-      compatible = "zmk,behavior-macro";
-      #binding-cells = <0>;
-      bindings = <&none &kp SPACE &kp SV_AMPS &kp SV_AMPS &kp SPACE>;
-    };
-  };
+
 
   keymap {
     compatible = "zmk,keymap";
@@ -123,7 +118,7 @@
       bindings = <
         &bootloader &trans        &trans          &trans &kp SV_CARET &kp SV_TILDE                                 &mac0  &trans &trans &kp SV_O_UMLAUT &trans &bootloader 
         &trans      &kp SV_A_RING &kp SV_A_UMLAUT OLCTRL OLSHFT       &trans                  /**/                 &trans ORSHFT ORCTRL ORALT           ORGUI &trans
-        &trans      &trans        &trans          &trans &trans       &trans  &trans  &trans  /**/  &trans  &trans &trans &trans &trans &trans          &trans &trans
+        &trans      &trans        &trans          &trans &trans       &cancl  &trans  &trans  /**/  &trans  &trans &trans &trans &trans &trans          &trans &trans
                                                   &trans &trans       &trans  &trans  &trans  /**/  &trans  &trans &trans &trans &trans
       >;
     };
@@ -146,6 +141,16 @@
         &bt BT_CLR &bt BT_CLR_ALL  &bt BT_DISC 0  &trans  &trans  &to COL                         /**/                       &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &trans &trans
         &trans     &trans          &trans         &trans  &trans  &trans  &trans  &studio_unlock  /**/   &mkp MB3  &mkp MB4  &trans         &trans         &trans       &trans          &trans &trans
                                                   &trans  &trans  &trans  &trans  &trans          /**/   &mkp MB1  &mkp MB2  &trans         &trans         &trans
+      >;
+    };
+
+    lock_layer {
+      display-name = "Lock Layer";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans                                        &trans &trans &trans &trans &trans &trans
+        &trans &kt LGUI &kt LALT &kt LCTRL &kt LSHFT &trans               /**/           &trans &kt RSHFT &kt RCTRL &kt RALT &kt RGUI &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans /**/ &trans &trans       &trans &trans &trans &trans &trans &trans
+                              &trans &trans &trans &trans &trans /**/ &trans &trans      &trans &trans &trans
       >;
     };
 

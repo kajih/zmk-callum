@@ -12,5 +12,19 @@
       bindings = <&mo TRI>;
       slow-release;
     };
+
+    combo_lock_r {
+      key-positions = <LH0 RH1>;
+      layers = <QWE COL>;
+      timeout-ms = <200>;
+      bindings = <&mo LOCK>;
+    };
+
+    combo_lock_l {
+      key-positions = <LH1 RH0>;
+      layers = <QWE COL>;
+      timeout-ms = <200>;
+      bindings = <&mo LOCK>;
+    };
   };
 };
