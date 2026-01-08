@@ -36,7 +36,7 @@
       display-name = "Qsht Right";
       bindings = <
         &trans  &trans &trans &trans &trans   &trans                                          &trans  &trans &trans &trans &trans &trans
-        &trans  &kp A  &kp S  &kp D  &kp D    &trans                    /**/                  &trans  ORSHFT ORCTRL ORALT  ORGUI  &trans
+        &trans  &kp A  &kp S  &kp D  &kp F    &trans                    /**/                  &trans  ORSHFT ORCTRL ORALT  ORGUI  &trans
         &trans  &trans &trans &trans &trans   &trans  &trans    &trans  /**/  &trans  &trans  &trans  &trans &trans &trans &trans &trans
                               &trans &kp LGUI &kp DEL &kp ENTER &kp TAB /**/  &trans  &trans  &trans  &trans &trans
       >;
