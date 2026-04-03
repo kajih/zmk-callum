@@ -126,10 +126,10 @@
     navigation_layer {
       display-name = "Navigation Layer";
       bindings = <
-        &trans  &trans &trans &trans &trans &trans                                         &kp K_REDO &kp K_PASTE &kp K_COPY  &kp K_CUT     &kp K_UNDO &trans
-        &trans  OLGUI  OLALT  OLCTRL OLSHFT &trans                 /**/                    &kp LEFT   &kp DOWN    &kp UP      &kp RIGHT     &kp CAPS   &trans
-        &trans  &trans &trans &trans &trans &trans  &trans  &trans /**/ &trans    &trans   &kp INS    &kp HOME    &kp PAGE_UP &kp PAGE_DOWN &kp END    &trans
-                              &trans &trans &trans  &trans  &trans /**/ &kp ENTER &kp BSPC &kp DEL    &trans      &trans
+        &trans  &trans &trans &trans &trans &trans                                         &kp HOME &kp PG_DN   &kp PG_UP   &kp END     &kp K_UNDO  &trans
+        &trans  OLGUI  OLALT  OLCTRL OLSHFT &trans                 /**/                    &kp LEFT &kp DOWN    &kp UP      &kp RIGHT   &kp CAPS    &trans
+        &trans  &trans &trans &trans &trans &trans  &trans  &trans /**/ &trans    &trans   &kp INS  &kp SV_LBRC &kp SV_RBRC &kp SV_LBKT &kp SV_LBKT &trans
+                              &trans &trans &trans  &trans  &trans /**/ &kp ENTER &kp BSPC &kp DEL  &trans      &trans
       >;
       sensor-bindings = <&inc_dec_kp PAGE_UP PAGE_DOWN>;
     };
